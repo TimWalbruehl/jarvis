@@ -1,0 +1,9 @@
+{
+  "name": "JARVIS NEXUS",
+  "short_name": "JARVIS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05080d",
+  "theme_color": "#07121c",
+  "description": "Personal AI command center"
+}

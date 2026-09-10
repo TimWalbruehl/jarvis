@@ -1,0 +1,20 @@
+{
+  "name": "jarvis-nexus",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "mac": "electron ."
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "openai": "^6.0.0"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0"
+  }
+}

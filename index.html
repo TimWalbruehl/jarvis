@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07121c">
+<link rel="manifest" href="/manifest.webmanifest">
+<title>JARVIS NEXUS</title>
+<style>
+:root{--bg:#04070b;--panel:rgba(10,18,27,.72);--line:rgba(95,210,255,.18);--cyan:#58dcff;--cyan2:#b8f3ff;--muted:#7890a2;--good:#61f2a2;--warn:#ffd166}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:radial-gradient(circle at 50% 35%,#102431 0,#05080d 42%,#020407 100%);color:#e9fbff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;overflow:hidden}
+button,input{font:inherit}.app{height:100%;display:grid;grid-template-columns:245px 1fr 310px;gap:14px;padding:14px}
+.panel{background:linear-gradient(145deg,rgba(15,28,39,.82),rgba(5,10,16,.72));border:1px solid var(--line);box-shadow:0 20px 80px rgba(0,0,0,.35),inset 0 0 35px rgba(71,209,255,.025);backdrop-filter:blur(18px);border-radius:18px}
+.side{padding:18px;display:flex;flex-direction:column}.brand{font-weight:800;letter-spacing:.22em;font-size:18px}.brand small{display:block;color:var(--cyan);font-size:9px;margin-top:6px;letter-spacing:.28em}
+.nav{margin-top:30px;display:grid;gap:8px}.nav button{background:transparent;border:1px solid transparent;color:#94a9b6;text-align:left;padding:12px;border-radius:11px;cursor:pointer}.nav button:hover,.nav button.active{border-color:var(--line);background:rgba(70,190,230,.07);color:#eaffff}
+.bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;color:#66808e;font-size:11px}.status{display:flex;align-items:center;gap:8px}.dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 14px var(--good)}
+.main{min-width:0;display:flex;flex-direction:column}.top{height:65px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}.eyebrow{font-size:10px;letter-spacing:.28em;color:#6f8999}.time{font-variant-numeric:tabular-nums;color:#9fdfff}
+.core{flex:1;display:grid;place-items:center;position:relative;overflow:hidden}.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(77,206,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(77,206,255,.045) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(circle,#000,transparent 70%)}
+.orb{width:min(390px,55vw);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;filter:drop-shadow(0 0 40px rgba(50,205,255,.35))}
+.orb:before,.orb:after{content:"";position:absolute;inset:4%;border:1px solid rgba(102,225,255,.38);border-radius:50%;animation:spin 14s linear infinite}
+.orb:after{inset:12%;border-style:dashed;animation:spinr 9s linear infinite;border-color:rgba(102,225,255,.22)}
+.coreball{width:45%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9fbff 0,#6de4ff 9%,#167b9d 34%,#071a26 69%,transparent 70%);box-shadow:0 0 50px #42d7ff,0 0 130px rgba(36,189,255,.35);animation:pulse 2.4s ease-in-out infinite}
+.scan{position:absolute;width:72%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);animation:scan 3.4s ease-in-out infinite}
+.caption{position:absolute;bottom:28px;text-align:center}.state{color:var(--cyan);font-size:11px;letter-spacing:.3em}.sub{color:#5e7888;font-size:10px;margin-top:8px}
+.composer{padding:14px;display:flex;gap:8px}.input{flex:1;background:#050b11;border:1px solid var(--line);border-radius:12px;color:white;padding:14px 16px;outline:none}.input:focus{border-color:rgba(88,220,255,.6);box-shadow:0 0 0 3px rgba(88,220,255,.06)}
+.action{border:1px solid rgba(88,220,255,.35);background:linear-gradient(180deg,#153a4a,#0a202c);color:#dffaff;border-radius:12px;padding:0 16px;cursor:pointer}.mic{width:48px}.right{padding:16px;display:flex;flex-direction:column;gap:12px;overflow:auto}.section{padding-bottom:14px;border-bottom:1px solid var(--line)}.title{font-size:10px;letter-spacing:.2em;color:#718998;margin-bottom:12px}.metric{display:flex;justify-content:space-between;margin:10px 0;font-size:12px}.value{color:var(--cyan2)}.bar{height:5px;background:#0b151d;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;width:63%;background:linear-gradient(90deg,#1c7c9c,#71eaff);box-shadow:0 0 10px #55ddff}.feed{display:grid;gap:9px}.event{font-size:11px;color:#8da3ae;padding:8px;border-left:2px solid #1b667b;background:rgba(75,200,240,.025)}.task{display:flex;gap:8px;align-items:center;font-size:12px}.task input{accent-color:#58dcff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;place-items:center;padding:20px;z-index:10}.modal.open{display:grid}.dialog{width:min(850px,95vw);max-height:85vh;overflow:auto;padding:22px}.dialog h2{margin-top:0}.memory-item{padding:10px;border:1px solid var(--line);border-radius:10px;margin:8px 0;font-size:12px;color:#a8bdc8}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes spinr{to{transform:rotate(-360deg)}}@keyframes pulse{50%{transform:scale(1.05);filter:brightness(1.15)}}@keyframes scan{50%{transform:translateY(100px);opacity:.4}} 
+@media(max-width:1000px){.app{grid-template-columns:76px 1fr}.right{display:none}.side{padding:12px}.brand span,.brand small,.nav button span,.bottom{display:none}.nav button{text-align:center}.top{padding:0 12px}.orb{width:min(320px,72vw)}} 
+@media(max-width:620px){body{overflow:hidden}.app{display:block;padding:0}.side{position:fixed;bottom:0;left:0;right:0;height:67px;z-index:5;background:rgba(3,8,13,.9);border-radius:0;border:0;border-top:1px solid var(--line);backdrop-filter:blur(18px)}.brand{display:none}.nav{margin:0;display:flex;justify-content:space-around;align-items:center;height:100%}.nav button{font-size:18px;padding:9px}.nav button span{display:none}.main{height:100vh;padding-bottom:67px}.top{height:58px}.eyebrow{font-size:8px}.orb{width:76vw}.composer{padding:9px}.input{padding:12px}.action{padding:0 12px}.action.execute{font-size:0}.action.execute:after{content:"↗";font-size:18px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side panel">
+  <div class="brand">JARVIS <span>NEXUS</span><small>PERSONAL INTELLIGENCE</small></div>
+  <div class="nav">
+    <button class="active" data-page="home">◉ <span>Command Center</span></button>
+    <button data-page="chat">▣ <span>Conversations</span></button>
+    <button data-page="tasks">✓ <span>Tasks</span></button>
+    <button data-page="memory">◌ <span>Memory</span></button>
+    <button data-page="system">⌁ <span>System</span></button>
+  </div>
+  <div class="bottom"><div class="status"><i class="dot"></i> NEXUS ONLINE</div><div style="margin-top:8px">LOCAL CORE // SECURE</div></div>
+</aside>
+
+<main class="main">
+<header class="top"><div><div class="eyebrow">JARVIS // PERSONAL COMMAND CENTER</div><div style="font-size:12px;color:#9eb4bf;margin-top:5px">Adaptive intelligence interface</div></div><div class="time" id="clock">00:00:00</div></header>
+<section class="core">
+<div class="grid"></div>
+<div class="orb"><div class="coreball"></div><div class="scan"></div></div>
+<div class="caption"><div class="state" id="state">SYSTEM READY</div><div class="sub">Say “Hey JARVIS” or type a command</div></div>
+</section>
+<div class="composer">
+<input id="input" class="input" placeholder="Was soll ich für dich tun? z. B. „Was gibt es heute Neues in der F1?“">
+<button class="action mic" id="mic">🎙️</button>
+<button class="action execute" id="send">EXECUTE</button>
+</div>
+</main>
+
+<aside class="right panel">
+<div class="section"><div class="title">CORE TELEMETRY</div>
+<div class="metric"><span>Neural Load</span><span class="value" id="load">63%</span></div><div class="bar"><i id="bar"></i></div>
+<div class="metric"><span>AI Core</span><span class="value">ONLINE</span></div>
+<div class="metric"><span>Voice</span><span class="value" id="voiceState">READY</span></div>
+<div class="metric"><span>Web Link</span><span class="value" id="webState">STANDBY</span></div>
+</div>
+<div class="section"><div class="title">ACTIVE TASKS</div><div id="tasks"></div></div>
+<div class="section"><div class="title">ACTIVITY</div><div class="feed" id="feed"></div></div>
+<div class="section"><div class="title">SESSION</div><div class="metric"><span>Messages</span><span class="value" id="count">0</span></div><div class="metric"><span>Memory Nodes</span><span class="value" id="memCount">0</span></div></div>
+</aside>
+</div>
+
+<div class="modal" id="modal"><div class="dialog panel"><button class="action" style="float:right" onclick="closeModal()">CLOSE</button><div id="modalBody"></div></div></div>
+
+<script>
+const $=s=>document.querySelector(s);
+let messages=JSON.parse(localStorage.getItem("jxMessages")||"[]");
+let memory=JSON.parse(localStorage.getItem("jxMemory")||"[]");
+let tasks=JSON.parse(localStorage.getItem("jxTasks")||"[]");
+let feed=[];
+
+function save(){localStorage.setItem("jxMessages",JSON.stringify(messages.slice(-50)));localStorage.setItem("jxMemory",JSON.stringify(memory.slice(-100)));localStorage.setItem("jxTasks",JSON.stringify(tasks.slice(-50)));renderTasks();$("#count").textContent=messages.length;$("#memCount").textContent=memory.length}
+function log(t){feed.unshift({t,time:new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit",second:"2-digit"})});feed=feed.slice(0,8);$("#feed").innerHTML=feed.map(x=>`<div class="event"><b>${x.time}</b> · ${escapeHtml(x.t)}</div>`).join("")}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function setState(x){$("#state").textContent=x}
+function renderTasks(){ $("#tasks").innerHTML=tasks.length?tasks.slice(-5).reverse().map((t,i)=>`<label class="task"><input type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${tasks.length-1-i})"><span>${escapeHtml(t.text)}</span></label>`).join(""):`<div style="font-size:11px;color:#647b88">Keine aktiven Tasks</div>`}
+window.toggleTask=i=>{tasks[i].done=!tasks[i].done;save();log(tasks[i].done?"Task abgeschlossen":"Task wieder geöffnet")}
+function speak(text){if(!("speechSynthesis" in window))return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text.replace(/[*#`]/g,""));u.lang=/[äöüß]/i.test(text)?"de-DE":"en-US";u.rate=.96;u.pitch=.92;speechSynthesis.speak(u)}
+function webNeeded(t){return /\\b(heute|aktuell|news|neueste|latest|wetter|weather|preis|kurs|ergebnis|2026)\\b/i.test(t)}
+async function ask(text){
+ if(!text.trim())return;
+ messages.push({role:"user",content:text}); $("#input").value=""; save();
+ const useWeb=webNeeded(text); $("#webState").textContent=useWeb?"SEARCHING":"STANDBY";
+ setState(useWeb?"RESEARCHING":"THINKING"); log("Command received");
+ $("#load").textContent=(70+Math.floor(Math.random()*25))+"%"; $("#bar").style.width=$("#load").textContent;
+ try{
+  const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages,useWeb,memory,tasks})});
+  const d=await r.json(); if(!r.ok)throw Error(d.error||"Backend error");
+  messages.push({role:"assistant",content:d.reply}); save();
+  setState("SYSTEM READY"); $("#webState").textContent=useWeb?"CONNECTED":"STANDBY"; log(useWeb?"Web research completed":"Response generated"); speak(d.reply);
+  parseTask(text);
+ }catch(e){setState("ERROR");log("Backend error: "+e.message);alert(e.message)}
+}
+function parseTask(t){const m=t.match(/(?:erinnere mich an|füge als task hinzu|task hinzufügen|remember)\\s+(.+)/i);if(m){tasks.push({text:m[1],done:false,created:Date.now()});save();log("Task created")}}
+$("#send").onclick=()=>ask($("#input").value);
+$("#input").addEventListener("keydown",e=>{if(e.key==="Enter")ask($("#input").value)});
+$("#mic").onclick=()=>{
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert("Spracherkennung wird in diesem Browser nicht unterstützt.");return}
+ const r=new SR();r.lang="de-DE";r.interimResults=false;r.continuous=false;$("#voiceState").textContent="LISTENING";setState("LISTENING");
+ r.onresult=e=>{const t=e.results[0][0].transcript;$("#input").value=t;$("#voiceState").textContent="READY";ask(t)};
+ r.onerror=()=>{$("#voiceState").textContent="READY";setState("SYSTEM READY")};r.onend=()=>{$("#voiceState").textContent="READY"};r.start();
+};
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");
+ const p=b.dataset.page;
+ if(p==="home")return closeModal();
+ let title=p==="chat"?"CONVERSATIONS":p==="tasks"?"TASK MATRIX":p==="memory"?"MEMORY NODES":"SYSTEM DIAGNOSTICS";
+ let body="";
+ if(p==="chat")body=messages.length?messages.slice(-20).map(m=>`<div class="memory-item"><b>${m.role==="user"?"YOU":"JARVIS"}</b><br>${escapeHtml(m.content)}</div>`).join(""):"No conversation yet.";
+ if(p==="tasks")body=`<h2>TASK MATRIX</h2>${tasks.map((t,i)=>`<div class="memory-item"><input type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${i});closeModal();"> ${escapeHtml(t.text)}</div>`).join("")||"<p>No tasks.</p>"}`;
+ if(p==="memory")body=`<h2>MEMORY NODES</h2><p style="color:#7890a2">Lokaler Speicher für persönliche Notizen.</p>${memory.map(x=>`<div class="memory-item">${escapeHtml(x)}</div>`).join("")||"<p>No memory nodes.</p>"}`;
+ if(p==="system")body=`<h2>SYSTEM DIAGNOSTICS</h2><div class="memory-item">Frontend: ONLINE</div><div class="memory-item">Local persistence: ${localStorage?"ONLINE":"OFFLINE"}</div><div class="memory-item">Speech synthesis: ${"speechSynthesis"in window?"ONLINE":"UNAVAILABLE"}</div><div class="memory-item">User agent: ${escapeHtml(navigator.userAgent)}</div>`;
+ $("#modalBody").innerHTML=`<h2>${title}</h2>${body}`;$("#modal").classList.add("open");
+});
+window.closeModal=()=>$("#modal").classList.remove("open");
+function clock(){let d=new Date();$("#clock").textContent=d.toLocaleTimeString("de-DE");}
+setInterval(clock,1000);clock();renderTasks();save();log("NEXUS boot sequence complete");
+if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js");
+</script>
+</body>
+</html>
